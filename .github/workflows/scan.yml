@@ -29,6 +29,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: ${{ env.report-folder-name }}
+          path: ${{ env.report-folder-name }}
 
       - name: 🚚 Push report to store repository
         uses: cpina/github-action-push-to-another-repository@main
