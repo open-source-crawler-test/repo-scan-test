@@ -51,6 +51,16 @@ runs:
       run: |
         mkdir ${{ env.final-report-folder }}
         mv ${{ env.typos-report-folder }} ${{ env.final-report-folder }}
+        cd ${{ env.final-report-folder }}
+        touch README.md
+        echo "# Scan Complete - [${{ inputs.repository }}](https://github.com/${{ inputs.repository }}) [![Fork me badge](https://img.shields.io/badge/fork-repo-blue)](https://github.com/${{ inputs.repository }}/fork)" >> README.md
+        echo "" >> README.md
+        echo "**Repository:** [${{ inputs.repository }}](https://github.com/${{ inputs.repository }})" >> README.md
+        echo "" >> README.md
+        echo "**Analysis Date:** $(date)" >> README.md
+        echo "" >> README.md
+        cat README.md >> $GITHUB_STEP_SUMMARY
+        cd ..
       shell: bash
 
     # Store the report in the archive repo
