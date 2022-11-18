@@ -11,7 +11,8 @@ jobs:
       - name: ✅ Run action.yml to verify all steps pass
         uses: ./
         with:
-          repository: npm/registry
+          # repository: npm/registry
+          repository: facebook/react
           typo-scan-exclude-match: '[''typos/**'', ''public/**'']'
           REPORT_ARCHIVE_OWNER: open-source-crawler-test
           REPORT_ARCHIVE_REPO: repo-scan-archive-test
