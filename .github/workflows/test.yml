@@ -17,3 +17,4 @@ jobs:
           REPORT_ARCHIVE_REPO: repo-scan-archive-test
           ARCHIVE_REPO_BRANCH_TARGET: main
           ARCHIVE_COMMIT_EMAIL: commit-bot@gmail.com
+          ARCHIVE_REPO_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
