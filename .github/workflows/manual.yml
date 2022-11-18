@@ -1,11 +1,14 @@
 name: Scan
 on: 
-  push:
   workflow_dispatch:
+    inputs:
+      repository:
+        required: true
+        description: "owner/name" of the repository to scan
 
 # MUST have "secrets.PERSONAL_ACCESS_TOKEN" with permission to push to archive repository
 env:
-  repository: npm/registry
+  repository: ${{ inputs.repository }}
   scan-exclude-match: '[''typos/**'', ''public/**'']'
   report-folder-name: typo-report
   REPORT_ARCHIVE_OWNER: open-source-crawler-test
