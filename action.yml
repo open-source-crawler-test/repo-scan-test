@@ -40,14 +40,14 @@ runs:
 
     # Download scan reports
     - name: Download typo scan report
-      if: ${{ env.REPORT_ARCHIVE_REPO && env.REPORT_ARCHIVE_OWNER }}
+      if: ${{ inputs.REPORT_ARCHIVE_REPO && inputs.REPORT_ARCHIVE_OWNER }}
       uses: actions/download-artifact@v3
       with:
         name: ${{ env.typos-report-folder }}
         path: ${{ env.typos-report-folder }}
 
     - name: Format user-friendly report
-      if: ${{ env.REPORT_ARCHIVE_REPO && env.REPORT_ARCHIVE_OWNER }}
+      if: ${{ inputs.REPORT_ARCHIVE_REPO && inputs.REPORT_ARCHIVE_OWNER }}
       run: |
         mkdir ${{ env.final-report-folder }}
         mv ${{ env.typos-report-folder }} ${{ env.final-report-folder }}
@@ -55,7 +55,7 @@ runs:
 
     # Store the report in the archive repo
     - name: 🚚 Push report to store repository
-      if: ${{ env.REPORT_ARCHIVE_REPO && env.REPORT_ARCHIVE_OWNER }}
+      if: ${{ inputs.REPORT_ARCHIVE_REPO && inputs.REPORT_ARCHIVE_OWNER }}
       uses: cpina/github-action-push-to-another-repository@main
       env:
         API_TOKEN_GITHUB: ${{ inputs.ARCHIVE_REPO_ACCESS_TOKEN }}
