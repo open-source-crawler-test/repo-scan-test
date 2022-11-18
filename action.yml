@@ -58,7 +58,7 @@ runs:
       if: env.REPORT_ARCHIVE_REPO && env.REPORT_ARCHIVE_OWNER
       uses: cpina/github-action-push-to-another-repository@main
       env:
-        API_TOKEN_GITHUB: ${{ input.ARCHIVE_REPO_ACCESS_TOKEN }}
+        API_TOKEN_GITHUB: ${{ inputs.ARCHIVE_REPO_ACCESS_TOKEN }}
       with:
         source-directory: ${{ env.final-report-folder }}
         destination-github-username: ${{ inputs.REPORT_ARCHIVE_OWNER }}
