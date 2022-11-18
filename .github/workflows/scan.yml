@@ -1,0 +1,43 @@
+name: Scan
+on: 
+  push:
+  workflow_dispatch:
+
+# MUST have "secrets.PERSONAL_ACCESS_TOKEN" added to this repository
+env:
+  repository: npm/registry
+  scan-exclude-match: '[''typos/**'', ''public/**'']'
+  report-folder-name: typo-report
+  REPORT_ARCHIVE_REPO: open-source-crawler-test/repo-scan-archive-test
+  ARCHIVE_REPO_BRANCH_TARGET: main
+  ARCHIVE_REPO_OWNER: spencerlepine
+  ARCHIVE_OWNER_EMAIL: spencerlepine26@gmail.com
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Scan external source code for typos
+        uses: open-source-crawler-test/typo-scan-test@main
+        with:
+          repository: ${{ env.repository }}
+          scan-exclude-match: ${{ env.scan-exclude-match }}
+          report-folder-name: ${{ env.report-folder-name }}
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.report-folder-name }}
+
+      - name: 🚚 Push report to store repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        with:
+          source-directory: ${{ env.report-folder-name }}
+          destination-github-username: ${{ env.ARCHIVE_REPO_OWNER }}
+          destination-repository-name: ${{ env.REPORT_ARCHIVE_REPO }}
+          target-directory: ${{ env.repository }}
+          user-email: ${{ env.ARCHIVE_OWNER_EMAIL }}
+          target-branch: ${{ env.ARCHIVE_REPO_BRANCH_TARGET }}
