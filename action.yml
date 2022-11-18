@@ -1,0 +1,64 @@
+name: 'RepoScan'
+description: 'Scan a public repository'
+inputs:
+  repository:
+    description: ''
+    required: true
+  typo-scan-exclude-match: 
+    description: ''
+    default: '[''typos/**'', ''public/**'']'
+  REPORT_ARCHIVE_OWNER:
+    description: ''
+  REPORT_ARCHIVE_REPO:
+    description: ''
+  ARCHIVE_REPO_BRANCH_TARGET:
+    description: ''
+    default: 'main'
+  ARCHIVE_COMMIT_EMAIL:
+    description: ''
+    default: 'commit-bot@gmail.com'
+runs:
+  using: "composite"
+  steps:
+    - name: Set environment variables for folder names
+      run: |
+        typos-report-folder="typos-report"
+        echo "typos-report-folder=${typos-report-folder}" >> $GITHUB_ENV
+        final-report-folder="final-report"
+        echo "final-report-folder=${final-report-folder}" >> $GITHUB_ENV
+
+    # Preform scans
+    - name: Scan external source code for typos
+      uses: open-source-crawler-test/typo-scan-test@main
+      with:
+        repository: ${{ inputs.repository }}
+        scan-exclude-match: ${{ inputs.typo-scan-exclude-match }}
+        report-folder-name: ${{ env.typos-report-folder }}
+
+    # Download scan reports
+    - name: Download typo scan report
+      if: env.REPORT_ARCHIVE_REPO && env.REPORT_ARCHIVE_OWNER
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ env.typos-report-folder }}
+        path: ${{ env.typos-report-folder }}
+
+    - name: Format user-friendly report
+      if: env.REPORT_ARCHIVE_REPO && env.REPORT_ARCHIVE_OWNER
+      run: |
+        mkdir ${{ env.final-report-folder }}
+        mv ${{ env.typos-report-folder }} ${{ env.final-report-folder }}
+
+    # Store the report in the archive repo
+    - name: 🚚 Push report to store repository
+      if: env.REPORT_ARCHIVE_REPO && env.REPORT_ARCHIVE_OWNER
+      uses: cpina/github-action-push-to-another-repository@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      with:
+        source-directory: ${{ env.final-report-folder }}
+        destination-github-username: ${{ inputs.REPORT_ARCHIVE_OWNER }}
+        destination-repository-name: ${{ inputs.REPORT_ARCHIVE_REPO }}
+        target-directory: ${{ inputs.repository }}
+        user-email: ${{ inputs.ARCHIVE_COMMIT_EMAIL }}
+        target-branch: ${{ inputs.ARCHIVE_REPO_BRANCH_TARGET }}
