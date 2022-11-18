@@ -1,10 +1,10 @@
-# repo-scan-test
+# RepoScan
 
-Repository Secrets:
-- 
-
+A reusable composite action to scan repositories for typos/security issues and easily store report outputs.
 
 ## Basic Usage
+
+Scan a repository, view GITHUB_JOB_SUMMARY output from the actions, and download the `final-report` folder upload as an artifact.
 
 ```
 name: Repository Scan 
