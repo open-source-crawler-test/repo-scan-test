@@ -24,10 +24,10 @@ runs:
   steps:
     - name: Set environment variables for folder names
       run: |
-        typos-report-folder="typos-report"
-        echo "typos-report-folder=${typos-report-folder}" >> $GITHUB_ENV
-        final-report-folder="final-report"
-        echo "final-report-folder=${final-report-folder}" >> $GITHUB_ENV
+        TYPOS_REPORT_FOLDER="typos-report"
+        echo "typos-report-folder=${TYPOS_REPORT_FOLDER}" >> $GITHUB_ENV
+        FINAL_REPORT_FOLDER="final-report"
+        echo "final-report-folder=${FINAL_REPORT_FOLDER}" >> $GITHUB_ENV
       shell: bash
 
     # Preform scans
