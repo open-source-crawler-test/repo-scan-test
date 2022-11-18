@@ -1,10 +1,36 @@
 # repo-scan-test
 
 Repository Secrets:
-- PERSONAL_ACCESS_TOKEN: <GITHUB_ACCESS_TOKEN>
+- 
+
+
+## Basic Usage
 
 ```
 name: Repository Scan 
+on: 
+ push:
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ✅ Run action.yml to verify all steps pass
+        uses: open-source-crawler-test/repo-scan-test@main
+        with:
+          repository: ${{ github.repository }}
+          typo-scan-exclude-match: '[''typos/**'', ''public/**'']'
+```
+
+
+## Advanced Usage
+
+Scan an external repository, and archive the report in a repository you own.
+
+> Make sure you add `PERSONAL_ACCESS_TOKEN: <GITHUB_ACCESS_TOKEN>` to Repository Secrets. This should have WRITE access to the archive repository, so it can upload the folders
+
+```
+name: Repository Scan w/ Report Archive
 on: 
  push:
 
