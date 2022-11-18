@@ -26,6 +26,7 @@ runs:
         echo "typos-report-folder=${typos-report-folder}" >> $GITHUB_ENV
         final-report-folder="final-report"
         echo "final-report-folder=${final-report-folder}" >> $GITHUB_ENV
+      shell: bash
 
     # Preform scans
     - name: Scan external source code for typos
@@ -48,6 +49,7 @@ runs:
       run: |
         mkdir ${{ env.final-report-folder }}
         mv ${{ env.typos-report-folder }} ${{ env.final-report-folder }}
+      shell: bash
 
     # Store the report in the archive repo
     - name: 🚚 Push report to store repository
