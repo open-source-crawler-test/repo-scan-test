@@ -57,7 +57,7 @@ runs:
         echo "" >> README.md
         echo "**Repository:** [${{ inputs.repository }}](https://github.com/${{ inputs.repository }})" >> README.md
         echo "" >> README.md
-        echo "**Analysis Date:** $(date)" >> README.md
+        echo "**Completion Date:** $(date)" >> README.md
         echo "" >> README.md
         cat README.md >> $GITHUB_STEP_SUMMARY
         cd ..

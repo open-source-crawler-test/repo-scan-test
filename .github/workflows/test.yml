@@ -2,6 +2,10 @@ name: CI
 on: 
  push:
 
+## -- CHANGE THIS --
+env:
+  repository: facebook/react
+
 jobs:
   test-action:
     runs-on: ubuntu-latest
@@ -12,7 +16,7 @@ jobs:
         uses: ./
         with:
           # repository: npm/registry
-          repository: facebook/react
+          repository: ${{ env.repository }}
           typo-scan-exclude-match: '[''typos/**'', ''public/**'']'
           REPORT_ARCHIVE_OWNER: open-source-crawler-test
           REPORT_ARCHIVE_REPO: repo-scan-archive-test
