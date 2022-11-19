@@ -1,4 +1,6 @@
-# RepoScan
+# RepoScan [![CI](https://github.com/open-source-crawler-test/repo-scan-test/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/open-source-crawler-test/repo-scan-test/actions/workflows/ci.yml)
+
+> ⚠️ This is a part of the [spencerlepine/open-source-crawler](https://github.com/spencerlepine/open-source-crawler) project
 
 A reusable composite action to scan repositories for typos/security issues and easily store report outputs.
 
